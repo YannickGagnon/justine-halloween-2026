@@ -3,140 +3,288 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Le costume de Justine pour Halloween 2026.">
-    <meta name="theme-color" content="#161310">
-    <meta name="color-scheme" content="dark">
-    <title>Justine — Halloween 2026</title>
+    <meta name="theme-color" content="#2b1a3d">
+    <title>Jennie — Halloween 2026</title>
+    <meta name="description" content="Jennie, le costume d'Halloween de Justine.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Literata:opsz,wght@7..72,420;7..72,560&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <style>
+      /* Prototype 3 : un album de polaroïds. On touche une photo, elle s'anime. */
+      :root {
+        --bg: #2b1a3d;
+        --ink: #fff7ea;
+        --paper: #fbf8f1;
+        --pen: #2a2340;
+        --orange: #ff9a3c;
+        --marker: "Permanent Marker", "Comic Sans MS", cursive;
+        --hand: "Caveat", "Comic Sans MS", cursive;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 20% 10%, rgba(255, 154, 60, 0.25), transparent 40%),
+          radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.35), transparent 45%),
+          radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px) 0 0 / 14px 14px,
+          var(--bg);
+        color: var(--ink);
+        font-family: var(--hand);
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      main {
+        max-width: 30rem;
+        margin: 0 auto;
+        padding: calc(env(safe-area-inset-top, 0px) + 2rem) 1.25rem calc(env(safe-area-inset-bottom, 0px) + 3rem);
+      }
+
+      header { text-align: center; }
+
+      h1 {
+        margin: 0;
+        font-family: var(--marker);
+        font-weight: 400;
+        font-size: clamp(3.2rem, 18vw, 4.6rem);
+        line-height: 1;
+        color: var(--orange);
+        transform: rotate(-4deg);
+        text-shadow: 3px 3px 0 #000;
+      }
+
+      header p {
+        margin: 0.8rem 0 0;
+        font-size: 1.6rem;
+        line-height: 1.15;
+      }
+
+      .board {
+        display: grid;
+        gap: 2.2rem;
+        margin-top: 2.4rem;
+        padding: 0 0.75rem;
+      }
+
+      .polaroid {
+        position: relative;
+        display: block;
+        width: 82%;
+        padding: 0.7rem 0.7rem 0;
+        border: 0;
+        background: var(--paper);
+        color: var(--pen);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+        transform: rotate(var(--tilt));
+        transition: transform 0.25s;
+        font: inherit;
+        cursor: pointer;
+      }
+      .polaroid:nth-child(1) { --tilt: -4deg; }
+      .polaroid:nth-child(2) { --tilt: 3deg; justify-self: end; }
+      .polaroid:nth-child(3) { --tilt: -2deg; justify-self: center; }
+      .polaroid:active { transform: rotate(0deg) scale(1.03); }
+
+      /* Bout de ruban adhésif. */
+      .polaroid::before {
+        content: "";
+        position: absolute;
+        top: -0.8rem;
+        left: 50%;
+        width: 5.5rem;
+        height: 1.6rem;
+        background: rgba(255, 220, 150, 0.7);
+        transform: translateX(-50%) rotate(-3deg);
+      }
+
+      .polaroid img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        object-position: 50% 30%;
+        background: #111;
+      }
+
+      .polaroid .label {
+        display: block;
+        padding: 0.45rem 0 0.6rem;
+        font-size: 1.75rem;
+        text-align: center;
+      }
+
+      .play {
+        position: absolute;
+        top: calc(0.7rem + 50% - 3rem);
+        left: 50%;
+        display: grid;
+        place-items: center;
+        width: 3.6rem;
+        height: 3.6rem;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.55);
+        color: #fff;
+        font-size: 1.4rem;
+        transform: translate(-50%, -50%);
+      }
+
+      .sticker {
+        position: absolute;
+        font-size: 2.6rem;
+        filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.4));
+      }
+
+      /* Chauves-souris qui traversent la page. */
+      .bat {
+        position: fixed;
+        z-index: 0;
+        font-size: 1.8rem;
+        pointer-events: none;
+        animation: fly linear infinite;
+      }
+      .bat:nth-of-type(1) { top: 12%; animation-duration: 13s; }
+      .bat:nth-of-type(2) { top: 48%; animation-duration: 17s; animation-delay: -6s; font-size: 1.2rem; }
+      .bat:nth-of-type(3) { top: 78%; animation-duration: 21s; animation-delay: -12s; }
+
+      @keyframes fly {
+        0% { transform: translate(-15vw, 0); }
+        25% { transform: translate(25vw, -3rem); }
+        50% { transform: translate(55vw, 1rem); }
+        75% { transform: translate(85vw, -2rem); }
+        100% { transform: translate(115vw, 0); }
+      }
+
+      .board, header, footer { position: relative; z-index: 1; }
+
+      footer {
+        margin-top: 3rem;
+        text-align: center;
+        font-size: 1.5rem;
+      }
+
+      /* Le polaroïd en grand. */
+      dialog {
+        width: min(92vw, 26rem);
+        max-height: 92dvh;
+        padding: 0.8rem 0.8rem 0;
+        border: 0;
+        background: var(--paper);
+        color: var(--pen);
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+        overflow: visible;
+      }
+      dialog[open] { animation: pop 0.45s cubic-bezier(0.3, 1.5, 0.5, 1); }
+      dialog::backdrop { background: rgba(10, 4, 20, 0.8); }
+
+      @keyframes pop {
+        from { transform: scale(0.4) rotate(-12deg); opacity: 0; }
+        to { transform: scale(1) rotate(0); opacity: 1; }
+      }
+
+      dialog video {
+        display: block;
+        width: 100%;
+        max-height: calc(92dvh - 5rem);
+        aspect-ratio: 9 / 16;
+        object-fit: cover;
+        background: #000;
+      }
+
+      dialog p {
+        margin: 0;
+        padding: 0.4rem 0 0.6rem;
+        font-size: 2rem;
+        text-align: center;
+      }
+
+      .close {
+        position: absolute;
+        top: -1rem;
+        right: -0.6rem;
+        width: 2.8rem;
+        height: 2.8rem;
+        border: 3px solid var(--paper);
+        border-radius: 50%;
+        background: var(--orange);
+        color: #000;
+        font: 1.4rem var(--marker);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .bat { animation: none; display: none; }
+        dialog[open] { animation: none; }
+      }
+    </style>
   </head>
   <body>
+    <span class="bat" aria-hidden="true">🦇</span>
+    <span class="bat" aria-hidden="true">🦇</span>
+    <span class="bat" aria-hidden="true">🦇</span>
+
     <main>
-      <header class="hero">
-        <!-- TEXTE : petite ligne au-dessus du titre -->
-        <p class="eyebrow">Halloween 2026</p>
-        <!-- TEXTE : titre principal -->
-        <h1>Justine</h1>
-        <!-- TEXTE : sous-titre. Remplacez « le personnage » par le vrai nom. -->
-        <p class="lede">Le costume de «&nbsp;le personnage&nbsp;»</p>
-        <hr class="rule">
+      <header>
+        <h1>Jennie</h1>
+        <p>Le costume d'Halloween de Justine.<br>Touchez une photo&nbsp;! 👇</p>
       </header>
 
-      <!-- TEXTE : introduction courte -->
-      <section class="intro" aria-labelledby="intro-title">
-        <h2 id="intro-title" class="visually-hidden">Introduction</h2>
-        <p>
-          Cette page accompagne le costume de Justine. Remplacez ce paragraphe
-          par deux ou trois phrases&nbsp;: qui elle incarne ce soir-là, et ce
-          que vous voulez que les gens retiennent en scannant le code.
-        </p>
-      </section>
+      <div class="board" id="board"></div>
 
-      <!-- TEXTE : bloc 1 -->
-      <section class="block">
-        <h2>«&nbsp;Le personnage&nbsp;»</h2>
-        <p>
-          Le nom reste entre guillemets tant qu’il n’est pas choisi. Décrivez
-          ici qui est «&nbsp;le personnage&nbsp;»&nbsp;: son univers, ce qui le
-          rend reconnaissable, le détail que Justine a voulu garder.
-        </p>
-      </section>
-
-      <!-- TEXTE : bloc 2 -->
-      <section class="block">
-        <h2>Le costume</h2>
-        <p>
-          Décrivez les pièces du costume, les couleurs, et ce qui a été fait
-          maison. Quelques phrases suffisent&nbsp;: on lit cette page sur un
-          téléphone, souvent debout.
-        </p>
-      </section>
-
-      <!-- TEXTE : bloc 3 -->
-      <section class="block">
-        <h2>Le mot de Justine</h2>
-        <p>
-          Un bloc libre. Une anecdote, une précision, ou simplement bonsoir.
-          Effacez ce texte et écrivez le vôtre.
-        </p>
-      </section>
-
-      <!--
-        VIDÉOS : remplacez ID_VIDEO_01, ID_VIDEO_02 et ID_VIDEO_03
-        par l’identifiant YouTube (la partie après v= ou youtu.be/).
-        Les fichiers vidéo ne vont pas dans ce dépôt. Voir le README.
-        Pour n’en garder que deux, supprimez un bloc <figure>.
-      -->
-      <section class="videos" aria-labelledby="videos-title">
-        <h2 id="videos-title">Les vidéos</h2>
-        <p class="videos-intro">
-          Trois extraits. Chaque lecteur reste vide tant que son identifiant
-          n’est pas remplacé.
-        </p>
-
-        <figure>
-          <div class="player">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/ID_VIDEO_01"
-              title="Vidéo 1 — présentation"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <figcaption>
-            <!-- TEXTE : titre et légende de la vidéo 1 -->
-            <strong>Présentation</strong>
-            <span>Remplacez ce titre et cette légende.</span>
-            <code class="id-note">ID_VIDEO_01</code>
-          </figcaption>
-        </figure>
-
-        <figure>
-          <div class="player">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/ID_VIDEO_02"
-              title="Vidéo 2 — le costume de près"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <figcaption>
-            <!-- TEXTE : titre et légende de la vidéo 2 -->
-            <strong>Le costume de près</strong>
-            <span>Un plan plus serré, ou une deuxième scène.</span>
-            <code class="id-note">ID_VIDEO_02</code>
-          </figcaption>
-        </figure>
-
-        <figure>
-          <div class="player">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/ID_VIDEO_03"
-              title="Vidéo 3 — un dernier extrait"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <figcaption>
-            <!-- TEXTE : titre et légende de la vidéo 3 -->
-            <strong>Un dernier extrait</strong>
-            <span>Facultatif. Vous pouvez retirer ce bloc.</span>
-            <code class="id-note">ID_VIDEO_03</code>
-          </figcaption>
-        </figure>
-      </section>
-
-      <footer>
-        <p>Halloween 2026 · Justine</p>
-      </footer>
+      <footer>Joyeuse Halloween 🎃</footer>
     </main>
+
+    <dialog id="viewer" aria-label="Vidéo">
+      <button class="close" id="close" type="button" aria-label="Fermer">✕</button>
+      <video id="video" playsinline controls></video>
+      <p id="label"></p>
+    </dialog>
+
+    <script>
+      const clips = [
+        { src: "vids/zepeto_video_1791030100050.mp4", poster: "vids/posters/cimetiere.jpg", label: "minuit au cimetière", sticker: "🌕" },
+        { src: "vids/ZEPETO_VIDEO_1791037371627.mp4", poster: "vids/posters/toit.jpg", label: "on danse sur le toit !", sticker: "💃" },
+        { src: "vids/ZEPETO_VIDEO_1791043253747.mp4", poster: "vids/posters/rue.jpg", label: "coucou tout le monde", sticker: "👋" },
+      ];
+
+      const board = document.getElementById("board");
+      const viewer = document.getElementById("viewer");
+      const video = document.getElementById("video");
+      const label = document.getElementById("label");
+
+      clips.forEach((clip, i) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "polaroid";
+        card.innerHTML = `
+          <img src="${clip.poster}" alt="Jennie, vidéo ${i + 1}">
+          <span class="play" aria-hidden="true">▶</span>
+          <span class="label">${clip.label}</span>
+          <span class="sticker" aria-hidden="true" style="${i % 2 ? "left" : "right"}:-1rem;bottom:2.4rem">${clip.sticker}</span>`;
+        card.addEventListener("click", () => open(clip));
+        board.append(card);
+      });
+
+      function open(clip) {
+        video.src = clip.src;
+        video.poster = clip.poster;
+        label.textContent = clip.label;
+        viewer.showModal();
+        video.play().catch(() => {});
+      }
+
+      function close() {
+        video.pause();
+        viewer.close();
+      }
+
+      document.getElementById("close").addEventListener("click", close);
+      viewer.addEventListener("click", (event) => {
+        if (event.target === viewer) close();
+      });
+      viewer.addEventListener("close", () => video.pause());
+    </script>
   </body>
 </html>

@@ -1,58 +1,36 @@
 # Justine — Halloween 2026
 
-Page statique pour présenter le costume de Justine. On l’ouvre depuis un code QR, sur un téléphone. Il n’y a pas d’étape de compilation : les fichiers `index.html` et `styles.css` sont servis tels quels.
+Page statique pour présenter le costume de Justine : Jennie, son avatar. On l’ouvre depuis un code QR, sur un téléphone. Il n’y a pas d’étape de compilation : `index.html` est servi tel quel.
 
-Le nom du personnage n’est pas encore choisi. Partout dans la page, il est écrit **« le personnage »**. Remplacez cette expression par le vrai nom quand vous l’avez.
+La page est un album de polaroïds. On touche une photo, la vidéo s’ouvre en grand.
 
 ## Adresse à mettre dans le QR code
 
 https://yannickgagnon.github.io/justine-halloween-2026/
 
-Encodez cette adresse telle quelle. Elle fonctionne une fois GitHub Pages activé (voir plus bas).
+Encodez cette adresse telle quelle.
 
 ## Modifier les textes
 
-Tout le texte visible est dans `index.html`. Les passages à remplacer sont marqués par un commentaire `<!-- TEXTE -->`.
+Tout est dans `index.html`, styles et script compris.
 
-À changer :
-
-- la petite ligne au-dessus du titre, le titre, et le sous-titre ;
-- le paragraphe d’introduction ;
-- les trois blocs (« le personnage », le costume, le mot de Justine) ;
-- le titre et la légende sous chaque vidéo.
-
-Les guillemets français « » font partie du texte. Vous pouvez les garder autour du nom.
-
-`styles.css` règle seulement la mise en page et les couleurs. Inutile d’y toucher pour changer les mots.
+- Le titre et la phrase d’accueil sont dans le bloc `<header>`.
+- La légende de chaque photo est dans la liste `clips`, en bas du fichier (champ `label`). Le champ `sticker` est l’autocollant posé sur le coin de la photo.
 
 ## Changer les vidéos
 
-Les vidéos ne sont pas dans ce dépôt, et il ne faut pas y ajouter de fichiers vidéo. Elles restent hébergées ailleurs (YouTube). La page n’affiche qu’un lecteur.
+Les vidéos sont dans `vids/`, et une image fixe par vidéo dans `vids/posters/`. Chaque entrée de la liste `clips` donne la vidéo (`src`) et son image (`poster`).
 
-Dans `index.html`, chaque lecteur a une adresse de cette forme :
+Pour ajouter une vidéo : déposez le fichier `.mp4` dans `vids/`, tirez-en une image, puis ajoutez une ligne à `clips`. Pour l’image :
 
-```text
-https://www.youtube-nocookie.com/embed/ID_VIDEO_01
+```sh
+ffmpeg -ss 2 -i vids/ma-video.mp4 -frames:v 1 -vf scale=540:-2 -q:v 4 vids/posters/ma-video.jpg
 ```
 
-Les identifiants provisoires sont `ID_VIDEO_01`, `ID_VIDEO_02` et `ID_VIDEO_03`. Remplacez chacun par l’identifiant réel, aux deux endroits où il apparaît pour cette vidéo : dans l’adresse du lecteur, et dans la petite étiquette sous la légende.
+Gardez les vidéos courtes et légères : la page est souvent ouverte sur un réseau mobile.
 
-Pour trouver l’identifiant :
+## Mise en ligne
 
-- adresse longue `https://www.youtube.com/watch?v=abcdefghijk` → `abcdefghijk` ;
-- lien court `https://youtu.be/abcdefghijk` → la même suite, après la barre oblique.
-
-Il y a trois lecteurs. Pour n’en garder que deux, supprimez un bloc `<figure>…</figure>` entier.
-
-## Mettre le site en ligne
-
-GitHub Pages n’a pas pu être activé depuis l’environnement qui a préparé cette page (le jeton n’a pas le droit d’administration sur le dépôt). Le propriétaire du dépôt fait ce réglage une fois :
-
-1. Ouvrir [Settings → Pages](https://github.com/YannickGagnon/justine-halloween-2026/settings/pages).
-2. Sous **Build and deployment**, menu **Source** : **Deploy from a branch**.
-3. Branche : **main**. Dossier : **/ (root)**.
-4. Cliquer **Save**.
-
-Après une ou deux minutes, la page répond à l’adresse du QR code. Chaque mise à jour poussée sur `main` republie le site.
+GitHub Pages publie la branche `main`, dossier racine. Chaque mise à jour poussée sur `main` republie le site après une ou deux minutes.
 
 Le fichier `.nojekyll` demande à GitHub de publier les fichiers directement, sans les faire passer par Jekyll.
